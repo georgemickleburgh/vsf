@@ -1,0 +1,13 @@
+<?php
+
+	namespace VSF\Exception;
+
+	class ApiException extends \Exception 
+	{
+
+		public function __toString() 
+		{
+			return $this->message;
+		}
+
+	}
