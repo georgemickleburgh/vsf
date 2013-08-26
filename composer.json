@@ -1,5 +1,5 @@
 {
-    "name": "vsf",
+    "name": "georgemickleburgh/vsf",
     "description": "VSF - A Very Small Framework",
     "type": "library",
     "require": {
