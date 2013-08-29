@@ -27,7 +27,7 @@
 		 * @param  string
 		 * @return array
 		 */
-		function parseIni($filename, $seperator = ':')
+		public static function parseIni($filename, $seperator = ':')
 		{
 			// Get the ini file and create a new empty array
 	        $ini = parse_ini_file($filename, true);
@@ -62,15 +62,26 @@
 	            	$config[$name][$prop] = $val;
 
 	            	// Split the properties, to check for . and array values
-	            	$split = explode('.', $prop);
-	            	if(count($split) == 2) {
-	            		$config[$name][$split[0]][$split[1]] = $val;
-	            		unset($config[$name][$prop]);
-	            	}
+	            	// $split = explode('.', $prop);
+	            	// if(count($split) == 2) {
+	            	// 	$config[$name][$split[0]][$split[1]] = $val;
+	            	// 	unset($config[$name][$prop]);
+	            	// }
 	            }
 	            
 	        }
-	        
+
+	        foreach($config as $name => $section) {
+	        	foreach($section as $setting => $value) {
+	        		// Split the properties, to check for . and array values
+	            	$split = explode('.', $setting);
+	            	if(count($split) == 2) {
+	            		$config[$name][$split[0]][$split[1]] = $value;
+	            		unset($config[$name][$setting]);
+	            	}
+	        	}
+	        }
+	        	        
 	        return $config;
 	    }
 
