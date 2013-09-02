@@ -5,19 +5,12 @@
 	class Controller
 	{
 
-		public $db;
 		public $settings;
 		public $view;
-		public $model;
 
-		public function __construct($model = null)
+		public function __construct()
 		{
 			$this->settings = \VSF\Registry::get('settings');
-			$this->db = \VSF\Registry::get('db');
-
-			if($model != null) {
-				$this->model = $model;
-			}
 			
 			$this->view = new View();
 
@@ -27,6 +20,7 @@
 		public function init()
 		{
 			// Run any global things here
+			// Should be overriden in a Base Controller
 		}
 
 	}

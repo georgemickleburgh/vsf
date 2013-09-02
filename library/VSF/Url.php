@@ -6,6 +6,30 @@
 	{
 
 		/**
+		 * Get the all of the segments of the URL and return them as
+		 * an array, splitting by / by default
+		 *
+		 * @static
+		 * @param string
+		 * @return array
+		 */
+		public static function getSegments($split = '/') 
+		{
+			// Get the request URI and remove the first slash
+			$url = ltrim($_SERVER['REQUEST_URI'], '/');
+
+			// Return false if URI is empty
+			if (empty($url)) {
+				return false;
+			}
+
+			// Split the URI by the split string
+			$segments = explode($split, $url);
+
+			return $segments;
+		}
+
+		/**
 		 * Get the parameters that follow the ? in the URL
 		 * 
 		 * @return array
