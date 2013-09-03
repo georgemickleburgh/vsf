@@ -10,6 +10,7 @@
 		protected $controller = 'Index';
 		protected $method = 'index';
 		protected $methodSuffix = 'Action';
+		protected $module = null;
 
 		/**
 		 * Constructor, takes the router config file to setup
@@ -42,13 +43,35 @@
 		public function execute($uri)
 		{
 			$route = $this->getRoute($uri);
+			$class = new $route;
 
 			$method = $this->method;
 
-			// Check if method needed
-			// Check method type
+			// If the default module is being used methods will be in
+			// URI index [1]
+			if ($this->module['name'] == '_default') {
+				if ($this->module['methods'] != 'none') {
+					if (isset($uri[1])) {
+						$method = $this->uriToMethod($uri[1]);
+					}
+				}
+			}
+			// Any other module will look for a method that is in
+			// URI index [2]
+			else {
+				if ($this->module['methods'] != 'none') {
+					if(isset($uri[2])) {
+						$method = $this->uriToMethod($uri[2]);
+					}
+				}
+			}
+
+			// Store variables
+			$this->method = $method;
+
 			// Construct method string
-			// Execute
+			$executeMethod = $method . $this->methodSuffix;
+			return $class->$executeMethod();
 		}
 
 		/**
@@ -63,11 +86,24 @@
 
 			// Firstly, check if the routing is for the homepage, i.e no segments
 			if ($uri === false) {
-				return $this->createFQCN(array(
+				$this->module = $appRoute['routing']['_default'];
+				$this->module['name'] = '_default';
+
+				$paramArray = array(
 					$appRoute['namespace'],
-					$appRoute['routing']['_default']['namespace'],
-					$this->controller
-				));
+					$this->module['namespace'],
+					'Controllers'
+				);
+
+				// If routing is for a single controller
+				if ($this->module['type'] == 'single') {
+					$paramArray[] = $this->module['controller'];
+				}
+				else {
+					$paramArray[] = $this->controller;
+				}
+
+				return $this->createFQCN($paramArray);
 			}
 
 			// Check whether the parameter is an array
@@ -84,17 +120,40 @@
 				if ($uri[0] == $module) {
 					$moduleFound = true;
 					$class .= '\\' . $appRoute['routing'][$module]['namespace'];
+
+					// Setup the module var
+					$this->module = $appRoute['routing'][$module];
+					$this->module['name'] = $module;
 				}
 			}
 
 			// If no module found, revert to _default route
 			if (!$moduleFound) {
 				$class .= '\\' . $appRoute['routing']['_default']['namespace'];
+
+				// Setup module var
+				$this->module = $appRoute['routing']['_default'];
+				$this->module['name'] = '_default';
 			}
 
+			$paramArray = array(
+				$appRoute['namespace'],
+				$this->module['namespace'],
+				'Controllers',
+			);
 
+			// If routing is for a single controller
+			if ($this->module['type'] == 'single') {
+				$paramArray[] = $this->module['controller'];
+			}
+			else {
+				if (!empty($uri[1])) {
+					$this->controller = $this->uriToClass($uri[1]);
+				}
+				$paramArray[] = $this->controller;
+			}
 
-			var_dump($class);
+			return $this->createFQCN($paramArray);
 		}
 
 		/**
@@ -116,6 +175,50 @@
 			}
 
 			return $className;
+		}
+
+		/**
+		 * Converts a string from a URI to be a usable method
+		 * name, replacing dashes and underscores with camelcase
+		 *
+		 * @param  string $string
+		 * @return string
+		 */
+		private function uriToMethod($string)
+		{
+			return str_replace(' ', '', ucwords(str_replace('-', ' ', $string)));
+		}
+
+		/**
+		 * Converts a string from a URI to be a usable class
+		 * name, replacing dashes with underscores and camelcase
+		 *
+		 * @param  string $string
+		 * @return string
+		 */
+		private function uriToClass($string)
+		{
+			return str_replace(' ', '', ucwords(str_replace('-', ' ', $string))); 
+		}
+
+		/**
+		 * Get method suffix
+		 *
+		 * @return string $methodSuffix
+		 */
+		public function getMethodSuffix()
+		{
+			return $this->methodSuffix;
+		}
+
+		/**
+		 * Set method suffix
+		 *
+		 * @param string $methodSuffix
+		 */
+		public function setMethodSuffix($methodSuffix)
+		{
+			$this->methodSuffix = $methodSuffix;
 		}
 
 	}

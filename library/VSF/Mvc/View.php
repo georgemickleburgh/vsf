@@ -15,9 +15,6 @@
 		public function __construct()
 		{
 			$this->settings = \VSF\Registry::get('settings');
-
-			//Set default layout to APP_PATH/views/layouts/layout.php
-			$this->path = $this->settings->applicationPaths['views'];
 		}
 
 		//Load view and extract data to be used by it
