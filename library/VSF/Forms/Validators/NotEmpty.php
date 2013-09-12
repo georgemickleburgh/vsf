@@ -7,7 +7,7 @@
 
 		public $errorMessage = 'Input must not be empty';
 
-		public function validate($value)
+		public function isValid($value)
 		{
 			if(!empty($value)) {
 				return true;

@@ -1,6 +1,8 @@
 <?php
 
 	namespace VSF\Mvc;
+	use VSF\Patterns\Registry;
+	use VSF\String;
 
 	class View
 	{
@@ -10,11 +12,13 @@
 
 		public $file;
 		public $path;
-		public $layout = 'layouts/layout.php';
+		public $layout = '/layouts/layout.php';
+		public $templateDir = 'templates';
 
 		public function __construct()
 		{
-			$this->settings = \VSF\Registry::get('settings');
+			$this->settings = Registry::get('settings');
+			$this->siteTitle = $this->settings->site->title;
 		}
 
 		//Load view and extract data to be used by it
@@ -26,17 +30,32 @@
 
 		public function getPageTitle()
 		{
-			if(!empty($this->pageTitle)) {
-				return \VSF\String::clean($this->pageTitle) . '|' . $this->settings->siteTitle;
+			if (!empty($this->pageTitle)) {
+				return String::clean($this->pageTitle) . ' | ' . $this->siteTitle;
 			}
 			else {
 				return $this->settings->siteTitle;
 			}
 		}
 
+		public function setPageTitle($pageTitle)
+		{
+			$this->pageTitle = $pageTitle;
+		}
+
+		public function getSiteTitle()
+		{
+			return $this->siteTitle;
+		}
+
+		public function setSiteTitle($siteTitle)
+		{
+			$this->siteTitle = $siteTitle;
+		}
+
 		public function getContent()
 		{
-			require_once($this->path . $this->file . '.php');
+			require_once($this->path . '/' . $this->templateDir . '/' . $this->file . '.php');
 		}
 
 		public function setLayout($string)
@@ -47,6 +66,16 @@
 		public function getLayout()
 		{
 			return $this->layout;
+		}
+
+		public function setPath($path)
+		{
+			$this->path = $path;
+		}
+
+		public function getPath()
+		{
+			return $this->path;
 		}
 		
 	}

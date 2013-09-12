@@ -1,8 +1,8 @@
 <?php
 
-	namespace VSF\Forms;
+	namespace VSF\Forms\Inputs;
 
-	class DropdownInput extends Input 
+	class Dropdown extends Input 
 	{
 
 		public $template = 'DropdownInput.html';

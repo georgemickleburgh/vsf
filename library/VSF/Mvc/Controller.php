@@ -1,6 +1,7 @@
 <?php
 
 	namespace VSF\Mvc;
+	use VSF\Patterns\Registry;
 
 	class Controller
 	{
@@ -10,7 +11,7 @@
 
 		public function __construct()
 		{
-			$this->settings = \VSF\Registry::get('settings');
+			$this->settings = Registry::get('settings');
 			
 			$this->view = new View();
 

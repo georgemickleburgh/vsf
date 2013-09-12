@@ -1,8 +1,8 @@
 <?php
 
-	namespace VSF\Forms;
+	namespace VSF\Forms\Inputs;
 
-	class EmailInput extends Input 
+	class Email extends Input 
 	{
 
 		public $template = 'EmailInput.html';

@@ -186,7 +186,9 @@
 		 */
 		private function uriToMethod($string)
 		{
-			return str_replace(' ', '', ucwords(str_replace('-', ' ', $string)));
+			$string = explode('?', $string);
+			$string = $string[0];
+			return lcfirst(str_replace(' ', '', ucwords(str_replace('-', ' ', $string))));
 		}
 
 		/**

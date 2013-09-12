@@ -7,7 +7,7 @@
 
 		public $errorMessage = 'Input must be a URL';
 
-		public function validate($value)
+		public function isValid($value)
 		{
 			// Add the http:// protocol to the string if it has none
 			if(substr($value, 0, 4) != 'http') {

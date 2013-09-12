@@ -7,7 +7,7 @@
 	 * @version 0.0.1
 	 */
 	
-	namespace VSF;
+	namespace VSF\Patterns;
 
 	abstract class Singleton 
 	{

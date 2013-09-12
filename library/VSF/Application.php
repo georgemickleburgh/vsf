@@ -1,6 +1,7 @@
 <?php
 
 	namespace VSF;
+	use VSF\Patterns\Registry;
 
 	class Application 
 	{
@@ -16,16 +17,39 @@
 			// Deal with global settings first
 			session_start();
 
+			// Split the other sections into seperate functions so 
+			// they can be run individually if needed
+			self::setupSettings($settingsFile);
+			self::setupDoctrine();
+		}
+
+		/**
+		 * Setup the settings file
+		 *
+		 * @return void
+		 */
+		public static function setupSettings($settingsFile)
+		{
 			// Now get the settings file and parse it
 			$configArray = File::parseIni($settingsFile);
 
 			// Check to see if there is a valid config which matches
-			// the SERVER_NAME
-			if(!isset($configArray[$_SERVER['SERVER_NAME']])) {
-				throw new Exception\BasicException('There is no configuration for this server name');
+			// the SERVER_NAME and check that its not CLI mode
+			if (php_sapi_name() != 'cli') {
+				if (!isset($configArray[$_SERVER['SERVER_NAME']])) {
+					throw new Exception\BasicException('There is no configuration for this server name');
+				}
+				else {
+					$configArray = $configArray[$_SERVER['SERVER_NAME']];
+				}
 			}
 			else {
-				$configArray = $configArray[$_SERVER['SERVER_NAME']];
+				if (isset($configArray['console'])) {
+					$configArray = $configArray['console'];
+				}
+				else {
+					throw new Exception\BasicException('There is no configuration for console applications');
+				}
 			}
 
 			// Create an object full of the settings variables
@@ -56,6 +80,19 @@
 				date_default_timezone_set('Europe/London');
 			}
 
+			// Add all neccessary variables to the Registry for later use
+			Registry::set('settings', $settings);
+		}
+
+		/**
+		 * Setup the application to work with doctrine
+		 * 
+		 * @return void
+		 */
+		public static function setupDoctrine()
+		{
+			$settings = Registry::get('settings');
+			
 			// Doctrine specific settings
 			if(isset($settings->doctrine) && $settings->doctrine->enabled == 1) {
 				// Setup all variables here, with checks to see whether there
@@ -87,9 +124,6 @@
 				$entityManager = \Doctrine\ORM\EntityManager::create($dbParams, $doctrine);
 				Registry::set('em', $entityManager);
 			}
-
-			// Add all neccessary variables to the Registry for later use
-			Registry::set('settings', $settings);
 		}
 
 	}

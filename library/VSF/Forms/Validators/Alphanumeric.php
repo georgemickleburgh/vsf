@@ -7,7 +7,7 @@
 
 		public $errorMessage = 'Input must be alphanumeric';
 
-		public function validate($value) {
+		public function isValid($value) {
 			if(preg_match('/^([a-zA-Z0-9])+$/', $value)) {
 				return true;
 			}

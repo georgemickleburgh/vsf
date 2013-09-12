@@ -7,7 +7,7 @@
 
 		public $errorMessage = 'Input must be an email';
 
-		public function validate($value)
+		public function isValid($value)
 		{
 			if(preg_match('/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/', $value)) { 
 				return true;

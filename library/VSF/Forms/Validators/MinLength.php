@@ -14,7 +14,7 @@
 			$this->errorMessage = 'Your input needs to be at least ' . $length . ' characters long';
 		}
 
-		public function validate($value)
+		public function isValid($value)
 		{
 			if(strlen($value) >= $this->minimumLength) {
 				return true;

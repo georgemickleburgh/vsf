@@ -8,12 +8,12 @@
 	 * @version 0.0.1
 	 */
 
-	namespace VSF;
+	namespace VSF\Patterns;
 
 	class Registry extends Singleton 
 	{
 
-		private static $storage;
+		public static $storage;
 
 		/**
 		 * Add a value to the registry, or change an existing value

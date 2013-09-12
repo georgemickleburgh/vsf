@@ -30,6 +30,32 @@
 		}
 
 		/**
+		 * Get a specific segment by the index, without having to worry
+		 * about checking whether the index is set first. Returns false
+		 * when there is no segment set
+		 *
+		 * @static
+		 * @param  int
+		 * @return string
+		 */
+		public static function getSegment($index)
+		{
+			// Increment the index so that 1 will be the first index
+			$index--;
+
+			$segments = self::getSegments();
+		
+			// Check whether the segment exists	
+			if ($segments === false || !isset($segments[$index])) {
+				return false;
+			}
+			else {
+				// Return the session key value
+				return $segments[$index];
+			}
+		}
+
+		/**
 		 * Get the parameters that follow the ? in the URL
 		 * 
 		 * @return array
@@ -89,6 +115,30 @@
 			$segments = explode('/', $url);
 
 			return end($segments);
+		}
+
+		/**
+		 * Easy redirects, including exiting the script execution
+		 *
+		 * @static
+		 * @param  string $path
+		 */
+		public static function redirect($path = '/') 
+		{
+			header('location: '.$path);
+			exit;
+		}
+
+		/**
+		 * Get the current protocol of the server, will return
+		 * either https:// or http://
+		 *
+		 * @static
+		 * @return string
+		 */
+		public static function getProtocol() 
+		{
+			return ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 		}
 
 	}

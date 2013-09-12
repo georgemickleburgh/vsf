@@ -8,6 +8,8 @@
      */
     
     namespace VSF\Forms;
+    use VSF\Patterns\Registry;
+    use VSF\String;
 
     class Form 
     {
@@ -15,17 +17,18 @@
         //Basic form variables
         public $elements;
         public $name;
+        public $title;
         public $method = 'post';
         public $action = '';
-        public $submitText = 'Submit';
         public $displayMode = 'list';
         public $errors = array();
+        public $classes = array();
 
         //Application settings
         public $settings;
         public $viewPath = '';
         public $template = 'Default.html';
-        public $templatePath = FRAMEWORK_VIEWS_PATH;
+        public $templatePath;
 
         /**
          * Constructor
@@ -34,9 +37,10 @@
          */
         public function __construct($name) 
         {
-            $this->settings = \VSF\Registry::get('settings');
+            $this->settings = Registry::get('settings');
             $this->name = $name;
-            $this->action = '/' . \VSF\String::clean($_GET['a']);
+            $this->action = '/' . String::clean($_GET['a']);
+            $this->templatePath = dirname(__DIR__) . '/Views';
             $this->viewPath = $this->templatePath . '/forms/';
 
             $this->init();
@@ -69,13 +73,13 @@
         public function addElement($ele) 
         {  
             if(!empty($_POST)) {
-                foreach($_POST as $k=>$v) {
-                    if($ele->name == $k) {
-                        $ele->value = $v;
+                foreach($_POST as $k=>$v){
+                    if($ele->getName() == $k)  {
+                        $ele->setValue($v);
                     }
                 }
             }
-            $this->elements[$ele->name] = $ele;
+            $this->elements[$ele->getName()] = $ele;
             
             return $this;
         }
@@ -146,23 +150,57 @@
         }
 
         /**
-         * Basic function to get the HTML for the submit button, with dynamic value
+         * Add a string to the array containing the classes for the form
          *
-         * @access public
-         * @return string
+         * @param  string
          */
-        public function getSubmitButton() 
+        public function addClass($class)
         {
-            return '<input type="submit" value="'.$this->submitText.'" id="submit" />';
+            $this->classes[] = $class;
+            return $this;
         }
 
         /**
-         * Creates the Form in HTML format from combining the elements and using the form template
+         * Prepares the classes for display in the form
+         *
+         * @return  string
+         */
+        public function getClasses()
+        {
+            $string = 'class="';
+            $counter = 0;
+            foreach($this->classes as $class) {
+                if($counter > 0) {
+                    $string .= ' ';
+                }
+                $string .= $class;
+                $counter++;
+            }
+            $string .= '"';
+
+            if ($string != 'class=""') {
+                return $string;
+            }
+            else {
+                return '';
+            }            
+        }
+
+        /**
+         * Echos the output from getContent
          *
          * @access public
-         * @return string
          */
         public function display() 
+        {
+            $content = $this->getContent();
+            echo $content;
+        }
+
+        /**
+         * Gets the form's content and prepares it for displaying
+         */
+        public function getContent()
         {
             $rawContent = file_get_contents($this->viewPath . $this->template);
 
@@ -170,12 +208,13 @@
                 '{method}' => $this->method,
                 '{action}' => $this->action,
                 '{name}' => $this->name,
+                '{title}' => $this->title,
                 '{elements}' => $this->displayElements(),
-                '{submit}' => $this->getSubmitButton(),
+                '{class}' => $this->getClasses(),
             );
 
             $content = str_replace(array_keys($tags), array_values($tags), $rawContent);
-            echo $content;
+            return $content;
         }
 
         /**
@@ -184,19 +223,19 @@
          * @access public
          * @return boolean
          */
-        public function validate() 
+        public function isValid() 
         {
             if(!empty($_POST)) {
                 $status = true;
                 foreach($this->getElements() as $ele) {
-                    $validate = $ele->validate();
+                    $validate = $ele->isValid();
                     if($validate != false) {
                         if(is_array($status)) {
                             $status[$ele->name] = $validate;
                         }
                         else {
                             $status = array(
-                                $ele->name => $validate
+                                $ele->getName() => $validate
                             );
                         }
                     }
@@ -302,6 +341,26 @@
                     }
                 }
             }
+        }
+
+        /**
+         * Title setter
+         *
+         * @param  string $title
+         */
+        public function setTitle($title)
+        {
+            $this->title = $title;
+        }
+
+        /**
+         * Title getter
+         *
+         * @return string
+         */
+        public function getTitle()
+        {
+            return $this->title;
         }
 
     }

@@ -7,7 +7,7 @@
 
 		public $errorMessage = 'Input must be an integer';
 
-		public function validate($value)
+		public function isValid($value)
 		{
 			if(is_numeric($value)) {
 				return true;

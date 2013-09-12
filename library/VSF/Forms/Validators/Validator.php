@@ -7,7 +7,7 @@
 
 		public $errorMessage = 'Invalid Validator';
 
-		public function validate($value) {
+		public function isValid($value) {
 			return false;
 		}
 
