@@ -6,7 +6,7 @@
 	abstract class Input
 	{
 
-		protected $name;
+		public $name;
 		protected $properties;
 		protected $validators;
 		protected $value;

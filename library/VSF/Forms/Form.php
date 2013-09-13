@@ -39,7 +39,6 @@
         {
             $this->settings = Registry::get('settings');
             $this->name = $name;
-            $this->action = '/' . String::clean($_GET['a']);
             $this->templatePath = dirname(__DIR__) . '/Views';
             $this->viewPath = $this->templatePath . '/forms/';
 
@@ -187,6 +186,19 @@
         }
 
         /**
+         * Get Action
+         */
+        public function getAction()
+        {
+            if (empty($this->action)) {
+                return $_SERVER['REQUEST_URI'];
+            }
+            else {
+                return $this->action;
+            }
+        }
+
+        /**
          * Echos the output from getContent
          *
          * @access public
@@ -206,7 +218,7 @@
 
             $tags = array(
                 '{method}' => $this->method,
-                '{action}' => $this->action,
+                '{action}' => $this->getAction(),
                 '{name}' => $this->name,
                 '{title}' => $this->title,
                 '{elements}' => $this->displayElements(),

@@ -16,7 +16,12 @@
 		public static function getSegments($split = '/') 
 		{
 			// Get the request URI and remove the first slash
-			$url = ltrim($_SERVER['REQUEST_URI'], '/');
+			if (isset($_SERVER['HTTP_REQUEST_URI'])) {
+				$url = ltrim($_SERVER['HTTP_REQUEST_URI'], '/');
+			}
+			else {
+				$url = ltrim($_SERVER['REQUEST_URI'], '/');
+			}
 
 			// Return false if URI is empty
 			if (empty($url)) {

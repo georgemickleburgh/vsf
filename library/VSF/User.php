@@ -41,7 +41,7 @@
 		 * @param  string $key
 		 * @return string
 		 */
-		public function get($key)
+		public static function get($key)
 		{
 			// Check whether logged in
 			if (!self::isLoggedIn()) {
