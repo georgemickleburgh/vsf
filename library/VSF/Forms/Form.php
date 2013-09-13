@@ -10,6 +10,7 @@
     namespace VSF\Forms;
     use VSF\Patterns\Registry;
     use VSF\String;
+    use VSF\Url;
 
     class Form 
     {
@@ -191,7 +192,7 @@
         public function getAction()
         {
             if (empty($this->action)) {
-                return $_SERVER['REQUEST_URI'];
+                return Url::getUri();
             }
             else {
                 return $this->action;

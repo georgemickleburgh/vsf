@@ -6,6 +6,25 @@
 	{
 
 		/**
+		 * Get the URI, which also allows a custom header of 
+		 * HTTP_REQUEST_URI to be set, if the server does not naturally
+		 * support passing the URI with rewrites
+		 *
+		 * @static
+		 * @param  string
+		 * @return string
+		 */
+		public static function getUri($header = 'HTTP_REQUEST_URI')
+		{
+			if (isset($_SERVER[$header])) {
+				return $_SERVER[$header];
+			}
+			else {
+				return $_SERVER['REQUEST_URI'];
+			}
+		}
+
+		/**
 		 * Get the all of the segments of the URL and return them as
 		 * an array, splitting by / by default
 		 *
@@ -16,12 +35,7 @@
 		public static function getSegments($split = '/') 
 		{
 			// Get the request URI and remove the first slash
-			if (isset($_SERVER['HTTP_REQUEST_URI'])) {
-				$url = ltrim($_SERVER['HTTP_REQUEST_URI'], '/');
-			}
-			else {
-				$url = ltrim($_SERVER['REQUEST_URI'], '/');
-			}
+			$url = ltrim(self::getUri(), '/');
 
 			// Return false if URI is empty
 			if (empty($url)) {
