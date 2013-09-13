@@ -40,7 +40,7 @@
             $this->settings = Registry::get('settings');
             $this->name = $name;
             $this->templatePath = dirname(__DIR__) . '/Views';
-            $this->viewPath = $this->templatePath . '/forms/';
+            $this->viewPath = $this->templatePath . '/Forms/';
 
             $this->init();
         }
