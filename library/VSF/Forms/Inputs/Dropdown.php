@@ -15,6 +15,8 @@
 			foreach($array as $k=>$v) {
 				$this->options[$k] = $v;
 			}
+
+			return $this;
 		}
 
 		//Get the options ready for display
