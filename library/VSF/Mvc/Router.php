@@ -147,9 +147,14 @@
 				$paramArray[] = $this->module['controller'];
 			}
 			else {
-				if (!empty($uri[1])) {
+				if ($this->module['name'] != '_default' && !empty($uri[1])) {
 					$this->controller = $this->uriToClass($uri[1]);
 				}
+
+				if($this->module['name'] == '_default' && !empty($uri[0])) {
+					$this->controller = $this->uriToClass($uri[0]);
+				}
+
 				$paramArray[] = $this->controller;
 			}
 
@@ -200,6 +205,8 @@
 		 */
 		private function uriToClass($string)
 		{
+			$string = explode('?', $string);
+			$string = $string[0];
 			return str_replace(' ', '', ucwords(str_replace('-', ' ', $string))); 
 		}
 
