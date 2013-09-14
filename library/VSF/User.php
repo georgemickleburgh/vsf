@@ -54,6 +54,24 @@
 		}
 
 		/**
+		 * Set a user variable in the current sessions, dealing 
+		 * with the User logged in state and session prefixes
+		 *
+		 * @param  string $key
+		 * @param  $string $value
+		 */
+		public static function set($key, $value)
+		{
+			// Check logged in state
+			if (!self::isLoggedIn()) {
+				return false;
+			}
+
+			// Set the value in the Session, including prefixes
+			Session::set(self::SESSION_PREFIX . $key, $value);
+		}
+
+		/**
 		 * Login with an associative array of parameters to 
 		 * store to the session
 		 *
