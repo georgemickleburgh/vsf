@@ -8,6 +8,7 @@
      */
     
     namespace VSF\Forms;
+    use VSF\Forms\Inputs;
     use VSF\Patterns\Registry;
     use VSF\String;
     use VSF\Url;
@@ -337,6 +338,7 @@
         /**
          * Static function to iterate through all _POST variables and clean them
          *
+         * @deprecated Old MySQL functions
          * @access public
          * @static
          */
@@ -352,6 +354,25 @@
                     else {
                         $_POST[$key] = \VSF\String::esacpe($value);
                     }
+                }
+            }
+        }
+
+        /**
+         * Move the submit button to the end of the elements array
+         *
+         * @return  void
+         */
+        public function reorderSubmit()
+        {
+            // Loop through all elements
+            foreach ($this->elements as $key => $element) {
+                // Check whether the input is the submit element
+                if ($element instanceof Inputs\Submit) {
+                    // Unset it from the array and re-add it to the end
+                    $submit = $this->elements[$key];
+                    unset($this->elements[$key]);
+                    $this->elements[$key] = $submit;
                 }
             }
         }
