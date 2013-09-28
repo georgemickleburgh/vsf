@@ -1,14 +1,14 @@
 <?php
 
-	namespace VSF\Forms\Validators;
+    namespace VSF\Forms\Validators;
 
-	abstract class Validator
-	{
+    abstract class Validator
+    {
 
-		public $errorMessage = 'Invalid Validator';
+        public $errorMessage = 'Invalid Validator';
 
-		public function isValid($value) {
-			return false;
-		}
+        public function isValid($value) {
+            return false;
+        }
 
-	}
+    }

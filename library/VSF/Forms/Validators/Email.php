@@ -1,20 +1,20 @@
 <?php
 
-	namespace VSF\Forms\Validators;
+    namespace VSF\Forms\Validators;
 
-	class Email extends Validator
-	{
+    class Email extends Validator
+    {
 
-		public $errorMessage = 'Input must be an email';
+        public $errorMessage = 'Input must be an email';
 
-		public function isValid($value)
-		{
-			if(preg_match('/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/', $value)) { 
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
+        public function isValid($value)
+        {
+            if(preg_match('/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/', $value)) { 
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
 
-	}
+    }

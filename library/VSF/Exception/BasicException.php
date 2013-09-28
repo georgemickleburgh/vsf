@@ -1,13 +1,13 @@
 <?php
 
-	namespace VSF\Exception;
+    namespace VSF\Exception;
 
-	class BasicException extends \Exception 
-	{
+    class BasicException extends \Exception 
+    {
 
-		public function __toString() 
-		{
-			return $this->message;
-		}
+        public function __toString() 
+        {
+            return $this->message;
+        }
 
-	}
+    }

@@ -1,10 +1,10 @@
 <?php
 
-	namespace VSF\Forms\Inputs;
+    namespace VSF\Forms\Inputs;
 
-	class Text extends Input
-	{
+    class Text extends Input
+    {
 
-		public $template = 'TextInput.html';
+        public $template = 'TextInput.html';
 
-	}
+    }

@@ -1,27 +1,24 @@
 <?php
 
-	namespace VSF\Mvc;
-	use VSF\Patterns\Registry;
+    namespace VSF\Mvc;
+    use VSF\Patterns\Registry;
 
-	class Controller
-	{
+    class Controller
+    {
 
-		public $settings;
-		public $view;
+        public $view;
 
-		public function __construct()
-		{
-			$this->settings = Registry::get('settings');
-			
-			$this->view = new View();
+        public function __construct()
+        {
+            $this->view = new View();
 
-			$this->init();
-		}
+            $this->init();
+        }
 
-		public function init()
-		{
-			// Run any global things here
-			// Should be overriden in a Base Controller
-		}
+        public function init()
+        {
+            // Run any global things here
+            // Should be overriden in a Base Controller
+        }
 
-	}
+    }

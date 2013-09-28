@@ -1,10 +1,10 @@
 <?php
 
-	namespace VSF\Forms\Inputs;
+    namespace VSF\Forms\Inputs;
 
-	class Password extends Input 
-	{
+    class Password extends Input 
+    {
 
-		public $template = "PasswordInput.html";
+        public $template = "PasswordInput.html";
 
-	}
+    }
