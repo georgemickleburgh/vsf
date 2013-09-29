@@ -1,0 +1,14 @@
+RewriteEngine On
+RewriteBase /
+
+# Deal with existing files
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+
+# Send all page requests through index
+RewriteRule ^.*$ index.php [NC,L]
+
+# Specify default 404 page for Apache based servers
+ErrorDocument 404 /404
