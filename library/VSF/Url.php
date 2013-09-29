@@ -14,10 +14,11 @@
          * @param  string
          * @return string
          */
-        public static function getUri($header = 'HTTP_REQUEST_URI')
+        public static function getUri($includeParams = true)
         {
-            if (isset($_SERVER[$header])) {
-                return $_SERVER[$header];
+            if (!$includeParams) {
+                $explode = explode('?', $_SERVER['REQUEST_URI']);
+                return $explode[0];
             }
             else {
                 return $_SERVER['REQUEST_URI'];
