@@ -27,7 +27,6 @@
         public $classes = array();
 
         //Application settings
-        public $settings;
         public $viewPath = '';
         public $template = 'Default.html';
         public $templatePath;
@@ -39,7 +38,6 @@
          */
         public function __construct($name) 
         {
-            $this->settings = Registry::get('settings');
             $this->name = $name;
             $this->templatePath = dirname(__DIR__) . '/Views';
             $this->viewPath = $this->templatePath . '/Forms/';

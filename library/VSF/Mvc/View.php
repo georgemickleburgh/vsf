@@ -14,6 +14,9 @@
         public $path;
         public $layout = '/layouts/layout.php';
         public $templateDir = 'templates';
+        public $helper;
+
+        protected $variables = array();
 
         public function __construct()
         {
@@ -26,6 +29,22 @@
         {
             $this->file = $file;
             require_once($this->path . $this->layout);
+        }
+
+        // Set variables to be received later
+        public function set($key, $value)
+        {
+            $this->variables[$key] = $value;
+        }
+        // Retrieve a variable by its key
+        public function get($key)
+        {
+            if (isset($this->variables[$key])) {
+                return $this->variables[$key];
+            }
+            else {
+                return null;
+            }
         }
 
         public function getPageTitle()
@@ -76,6 +95,11 @@
         public function getPath()
         {
             return $this->path;
+        }
+
+        public function setHelperClass($class)
+        {
+            $this->helper = $class;
         }
         
     }

@@ -8,10 +8,14 @@
 
         public $view;
 
-        public function __construct()
+        /**
+         * Constructor
+         * 
+         * @param object $settings
+         */
+        public function __construct($settings)
         {
-            $this->view = new View();
-
+            $this->view = new View($settings);
             $this->init();
         }
 

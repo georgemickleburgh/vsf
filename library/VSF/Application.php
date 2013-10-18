@@ -5,7 +5,7 @@
 
     class Application 
     {
-
+        
         /**
          * Setup the base application, including starting sessions,
          * settings timezone etc
@@ -19,8 +19,8 @@
 
             // Split the other sections into seperate functions so 
             // they can be run individually if needed
-            self::setupSettings($settingsFile);
-            self::setupDoctrine();
+            $settings = self::setupSettings($settingsFile);
+            self::setupDoctrine($settings);
         }
 
         /**
@@ -80,8 +80,10 @@
                 date_default_timezone_set('Europe/London');
             }
 
-            // Add all neccessary variables to the Registry for later use
+            // Add all neccessary variables to the Registry for later use and return
+            // settings to avoid not using Dependency Injection
             Registry::set('settings', $settings);
+            return $settings;
         }
 
         /**
@@ -89,10 +91,8 @@
          * 
          * @return void
          */
-        public static function setupDoctrine()
-        {
-            $settings = Registry::get('settings');
-            
+        public static function setupDoctrine($settings)
+        {            
             // Doctrine specific settings
             if(isset($settings->doctrine) && $settings->doctrine->enabled == 1) {
                 // Setup all variables here, with checks to see whether there
@@ -118,7 +118,7 @@
                 }
                 else {
                     // Production should use APC Cache
-                    $doctrine->setQueryCacheImpl(new \Doctrine\Common\Cache\ApcCache());
+                    //$doctrine->setQueryCacheImpl(new \Doctrine\Common\Cache\ApcCache());
                 }
 
                 $entityManager = \Doctrine\ORM\EntityManager::create($dbParams, $doctrine);
