@@ -11,18 +11,21 @@
         protected $method = 'index';
         protected $methodSuffix = 'Action';
         protected $module = null;
+        protected $settings = null;
 
         /**
          * Constructor, takes the router config file to setup
          * 
          * @param string $config
          */
-        public function __construct($config = 'app/config/routing.php') 
+        public function __construct($config = 'app/config/routing.php', $settings) 
         {
             // Check whether the config file exists
             if (!file_exists($config)) {
                 throw new BasicException('Could not open router config file');
             }
+
+            $this->settings = $settings;
 
             // Add the routing settings to the config var
             $this->config = require_once($config);
@@ -43,7 +46,7 @@
         public function execute($uri)
         {
             $route = $this->getRoute($uri);
-            $class = new $route;
+            $class = new $route($this->settings);
 
             $method = $this->method;
 
