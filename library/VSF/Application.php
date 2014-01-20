@@ -103,6 +103,7 @@
                 // Now to the actual DB parameters for the connection
                 $dbParams = array(
                     'driver'   => $settings->doctrine->driver,
+                    'host'     => $settings->doctrine->host,
                     'user'     => $settings->doctrine->user,
                     'password' => $settings->doctrine->password,
                     'dbname'   => $settings->doctrine->dbname,
