@@ -24,7 +24,7 @@
         {
             $content = '';
             foreach($this->options as $k=>$v) {
-                $content .= '<label class="radio"><input type="radio" name="'.$this->getName().'" value="'.$k.'" '.(($this->value==$k)?'selected':'').' data-toggle="radio" /> ' . $v . '</label>' . PHP_EOL;
+                $content .= '<label class="radio"><input type="radio" name="'.$this->getName().'" value="'.$k.'" '.(($this->value==$k)?'checked="checked"':'').' data-toggle="radio" /> ' . $v . '</label>' . PHP_EOL;
             }
             return $content;
         }
