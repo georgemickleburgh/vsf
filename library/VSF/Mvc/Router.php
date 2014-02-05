@@ -87,8 +87,10 @@ class Router
     {
         $appRoute = $this->config['application'];
 
+        // Loop around each segment to check for GET parameters
         if (!empty($uri)) {
             foreach ($uri as $k => $string) {
+                if (strpos($string, '?') !== false) { continue; }
                 $uri[$k] = substr($string, 0, strpos($string, '?'));
             }
         }
