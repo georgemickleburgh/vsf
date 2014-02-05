@@ -90,8 +90,9 @@ class Router
         // Loop around each segment to check for GET parameters
         if (!empty($uri)) {
             foreach ($uri as $k => $string) {
-                if (strpos($string, '?') !== false) { continue; }
-                $uri[$k] = substr($string, 0, strpos($string, '?'));
+                if (strpos($string, '?') != false) {
+                    $uri[$k] = substr($string, 0, strpos($string, '?'));
+                }
             }
         }
 
