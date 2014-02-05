@@ -87,6 +87,12 @@ class Router
     {
         $appRoute = $this->config['application'];
 
+        if (!empty($uri)) {
+            foreach ($uri as $k => $string) {
+                $uri[$k] = substr($string, 0, strpos($string, '?'));
+            }
+        }
+
         // Firstly, check if the routing is for the homepage, i.e no segments
         if ($uri === false) {
             $this->module = $appRoute['routing']['_default'];
