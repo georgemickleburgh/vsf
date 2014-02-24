@@ -15,12 +15,12 @@ class Mail
     /**
      * Constructor for the Mail class
      */
-    public function __construct($from)
+    public function __construct($fromName, $fromAddress)
     {
         $this->headers  = 'MIME-Version: 1.0' . "\r\n";
         $this->headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
         $this->headers .= 'To: '.$this->to. "\r\n";
-        $this->headers .= 'From: Domain <' . $from . '>' . "\r\n";
+        $this->headers .= 'From: '. $fromName .' <' . $fromAddress . '>' . "\r\n";
     }
 
     /**
